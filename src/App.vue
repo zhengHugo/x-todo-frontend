@@ -2,6 +2,7 @@
   <div id="app">
     <div class="container">
       <AddTodo/>
+      <FilterTodos/>
       <ItemList/>
     </div>
   </div>
@@ -10,12 +11,14 @@
 <script>
 import AddTodo from "@/components/AddTodo";
 import ItemList from "@/components/ItemList";
+import FilterTodos from "@/components/FilterTodos";
 
 export default {
   name: 'App',
   components: {
     ItemList,
-    AddTodo
+    AddTodo,
+    FilterTodos
   }
 }
 </script>

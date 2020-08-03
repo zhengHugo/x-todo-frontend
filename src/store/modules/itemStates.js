@@ -13,7 +13,7 @@ const actions = {
   // fetch todos from api
   // TODO: replace this url to the real backend
   async fetchTodos({commit}) {
-    const response = await axios.get('https://jsonplaceholder.typicode.com/todos?_limit=10');
+    const response = await axios.get('https://jsonplaceholder.typicode.com/todos');
     commit('setTodos', response.data);
   },
 
@@ -32,6 +32,16 @@ const actions = {
   async deleteTodo({commit}, id) {
     commit('deleteTodo', id);
     await axios.delete(`https://jsonplaceholder.typicode.com/todos/${id}`);
+  },
+
+
+  // TODO: replace this url to the real backend
+  // fetch a limited amount of items
+  async filterItems({commit}, event) {
+    // get selected number
+    const limit = parseInt(event.target.options[event.target.options.selectedIndex].innerText);
+    const response = await axios.get(`https://jsonplaceholder.typicode.com/todos?_limit=${limit}`)
+    commit('setTodos', response.data)
   }
 };
 
@@ -44,9 +54,7 @@ const mutations = {
   updateTempId: (state, {tempId, newId}) => {
     state.todos.map(todo => {
       if (todo.id === tempId) {
-        console.log('before ' + todo.id);
         todo.id = newId;
-        console.log('after ' + todo.id);
       }
     });
   }
