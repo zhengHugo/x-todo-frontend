@@ -1,23 +1,23 @@
-# x-todo-frontend
-
+# X-Todo-frontend
+Frontend part of an experimental todo list app.
 ## Project setup
 ```
-yarn install
+npm install
 ```
 
 ### Compiles and hot-reloads for development
 ```
-yarn serve
+vue-cli-service serve
 ```
 
 ### Compiles and minifies for production
 ```
-yarn build
+vue-cli-service build
 ```
 
 ### Lints and fixes files
 ```
-yarn lint
+vue-cli-service lint
 ```
 
 ### Customize configuration
