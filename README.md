@@ -22,3 +22,8 @@ vue-cli-service lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+## Roadmap
+- Connect to a real backend
+- User and authentication
+- Better UI design
