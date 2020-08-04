@@ -2,26 +2,26 @@ import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 
 const state = {
-  todos: []
+  items: []
 };
 
 const getters = {
-  allTodos: state => state.todos
+  allItems: state => state.items
 };
 
 const actions = {
-  // fetch todos from api
+  // fetch items from api
   // TODO: replace this url to the real backend
-  async fetchTodos({commit}) {
+  async fetchItems({commit}) {
     const response = await axios.get('https://jsonplaceholder.typicode.com/todos');
-    commit('setTodos', response.data);
+    commit('setItems', response.data);
   },
 
   // TODO: replace this url to the real backend
-  async addTodo({commit}, title) {
+  async addItem({commit}, title) {
     // add item to the frontend with a temporary item
     const tempId = uuidv4();
-    commit('addTodo', {id: tempId, title, completed: false});
+    commit('addItem', {id: tempId, title, completed: false});
     // update the item with a real id from backend
     const response = await axios.post('https://jsonplaceholder.typicode.com/todos', {title, completed: false});
     commit('updateTempId', {tempId, newId: response.data.id})
@@ -29,8 +29,8 @@ const actions = {
   },
 
   // TODO: replace this url to the real backend
-  async deleteTodo({commit}, id) {
-    commit('deleteTodo', id);
+  async deleteItem({commit}, id) {
+    commit('deleteItem', id);
     await axios.delete(`https://jsonplaceholder.typicode.com/todos/${id}`);
   },
 
@@ -40,21 +40,30 @@ const actions = {
   async filterItems({commit}, event) {
     // get selected number
     const limit = parseInt(event.target.options[event.target.options.selectedIndex].innerText);
-    const response = await axios.get(`https://jsonplaceholder.typicode.com/todos?_limit=${limit}`)
-    commit('setTodos', response.data)
+    const response = await axios.get(`https://jsonplaceholder.typicode.com/todos?_limit=${limit}`);
+    commit('setItems', response.data);
+  },
+
+  async updateItem({commit}, itemToUpdate) {
+    const response = await axios.put(`https://jsonplaceholder.typicode.com/todos/${itemToUpdate.id}`);
+    commit('updateItem', response.data)
   }
 };
 
 const mutations = {
-  setTodos: (state, todos) => {
-    state.todos = todos;
+  setItems: (state, items) => {
+    state.items = items;
   },
-  addTodo: (state, newTodo) => state.todos.unshift(newTodo),
-  deleteTodo: (state, id) => state.todos = state.todos.filter(todo => todo.id !== id),
+  addItem: (state, newItem) => state.items.unshift(newItem),
+  deleteItem: (state, id) => state.items = state.items.filter(item => item.id !== id),
+  updateItem: (state, newItem) => {
+    const index = state.items.findIndex(item => item.id === newItem.id);
+    state.items[index] = newItem;
+  },
   updateTempId: (state, {tempId, newId}) => {
-    state.todos.map(todo => {
-      if (todo.id === tempId) {
-        todo.id = newId;
+    state.items.map(item => {
+      if (item.id === tempId) {
+        item.id = newId;
       }
     });
   }

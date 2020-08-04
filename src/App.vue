@@ -1,24 +1,24 @@
 <template>
   <div id="app">
     <div class="container">
-      <AddTodo/>
-      <FilterTodos/>
+      <AddItem/>
+      <FilterItems/>
       <ItemList/>
     </div>
   </div>
 </template>
 
 <script>
-import AddTodo from "@/components/AddTodo";
 import ItemList from "@/components/ItemList";
-import FilterTodos from "@/components/FilterTodos";
+import AddItem from "@/components/AddItem";
+import FilterItems from "@/components/FilterItems";
 
 export default {
   name: 'App',
   components: {
-    ItemList,
-    AddTodo,
-    FilterTodos
+    FilterItems,
+    AddItem,
+    ItemList
   }
 }
 </script>

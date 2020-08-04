@@ -1,10 +1,19 @@
 <template>
   <div>
     <h3>Todos</h3>
-    <div class="todos">
-      <div v-for="todo in allTodos" v-bind:key="todo.id" class="todo">
-        {{ todo.title }}
-        <i @click="deleteTodo(todo.id)" class="fas fa-trash-alt"></i>
+    <div class="legend">
+      <span>Double click to mark as complete</span>
+      <span>
+        <span class="incomplete-box"></span> = Incomplete
+      </span>
+      <span>
+        <span class="completed-box"></span> = Completed
+      </span>
+    </div>
+    <div class="item-list">
+      <div v-for="item in allItems" v-bind:key="item.id" class="item">
+        {{ item.title }}
+        <i @click="deleteItem(item.id)" class="fas fa-trash-alt"></i>
       </div>
     </div>
   </div>
@@ -17,23 +26,23 @@ import { mapGetters, mapActions } from "vuex";
 export default {
   name: "ItemList",
   methods: {
-    ...mapActions(['fetchTodos', 'deleteTodo'])
+    ...mapActions(['fetchItems', 'deleteItem'])
   },
-  computed: mapGetters(['allTodos']),
+  computed: mapGetters(['allItems']),
   created() {
-    this.fetchTodos();
+    this.fetchItems();
   }
 }
 </script>
 
 <style scoped>
-.todos {
+.item-list {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 1rem;
 }
 
-.todo {
+.item {
   border: 1px solid #cccccc;
   background: #41b883;
   padding: 1rem;
@@ -50,5 +59,32 @@ i {
   color: #fff;
   cursor: pointer;
 }
+
+.legend {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 1rem;
+}
+
+.completed-box{
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background: #35495e;
+}
+
+.incomplete-box {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background: #41b883;
+}
+
+@media (max-width: 500px) {
+  .item-list {
+    grid-template-columns: 1fr;
+  }
+}
+
 
 </style>
