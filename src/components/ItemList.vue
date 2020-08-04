@@ -11,7 +11,12 @@
       </span>
     </div>
     <div class="item-list">
-      <div v-for="item in allItems" v-bind:key="item.id" class="item">
+      <div
+          v-for="item in allItems"
+          v-bind:key="item.id"
+          v-bind:class="{'is-complete': item.completed}"
+          @dblclick="onDblClick(item)"
+          class="item">
         {{ item.title }}
         <i @click="deleteItem(item.id)" class="fas fa-trash-alt"></i>
       </div>
@@ -26,9 +31,19 @@ import { mapGetters, mapActions } from "vuex";
 export default {
   name: "ItemList",
   methods: {
-    ...mapActions(['fetchItems', 'deleteItem'])
+    ...mapActions(['fetchItems', 'deleteItem', 'updateItem']),
+
+    onDblClick(item){
+      const newItem = {
+        id: item.id,
+        title: item.title,
+        completed: !item.completed
+      };
+      this.updateItem(newItem);
+    }
   },
   computed: mapGetters(['allItems']),
+
   created() {
     this.fetchItems();
   }
@@ -50,6 +65,11 @@ export default {
   text-align: center;
   position: relative;
   cursor: pointer;
+}
+
+.is-complete {
+  background: #35495e;
+  color: #ffffff;
 }
 
 i {
@@ -79,6 +99,8 @@ i {
   height: 10px;
   background: #41b883;
 }
+
+
 
 @media (max-width: 500px) {
   .item-list {

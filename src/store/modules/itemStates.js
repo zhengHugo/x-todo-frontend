@@ -45,7 +45,7 @@ const actions = {
   },
 
   async updateItem({commit}, itemToUpdate) {
-    const response = await axios.put(`https://jsonplaceholder.typicode.com/todos/${itemToUpdate.id}`);
+    const response = await axios.put(`https://jsonplaceholder.typicode.com/todos/${itemToUpdate.id}`, itemToUpdate);
     commit('updateItem', response.data)
   }
 };
@@ -58,7 +58,9 @@ const mutations = {
   deleteItem: (state, id) => state.items = state.items.filter(item => item.id !== id),
   updateItem: (state, newItem) => {
     const index = state.items.findIndex(item => item.id === newItem.id);
-    state.items[index] = newItem;
+    if (index !== -1) {
+      state.items.splice(index, 1, newItem);
+    }
   },
   updateTempId: (state, {tempId, newId}) => {
     state.items.map(item => {
